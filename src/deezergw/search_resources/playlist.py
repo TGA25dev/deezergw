@@ -15,8 +15,11 @@ class SearchPlaylist:
         self.id: str = playlist_metadata["id"]
         self.name: str = playlist_metadata["title"]
 
-        self.author_name: str = playlist_metadata["owner"]["name"]
-        self.author_id: str = playlist_metadata["owner"]["id"]
+        self.author_name: Optional[str] = None
+        self.author_id: Optional[str] = None
+        if "owner" in playlist_metadata and playlist_metadata["owner"]:
+            self.author_name = playlist_metadata["owner"]["name"]
+            self.author_id = playlist_metadata["owner"]["id"]
 
         self.is_favorite: bool = playlist_metadata["isFavorite"]
         self.fans: int = playlist_metadata["fansCount"]
