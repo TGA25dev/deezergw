@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Union
 from deezergw.api import IMAGE_URL, DeezerAPI
 from deezergw.resources.album import Album
 
@@ -32,7 +32,7 @@ class SearchAlbum:
     def get_full_album(self):
         return self._get_full_album(self.id)
 
-    def cover_url(self, size: str | int) -> str:
+    def cover_url(self, size: Union[str, int]) -> str:
         return IMAGE_URL.format("cover", self._album_cover_pic, size, size)
 
     def __repr__(self) -> str:

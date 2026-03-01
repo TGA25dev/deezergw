@@ -1,4 +1,4 @@
-from typing import List, Literal, TypeVar, TypedDict, Tuple, Set
+from typing import List, Literal, TypeVar, TypedDict, Tuple, Set, Union
 from deezergw.globals import FormatType, QualityType
 
 
@@ -40,4 +40,4 @@ class DownloadInfo(TypedDict):
 
 
 _array = TypeVar("_array")
-ArrayLike = List[_array] | Tuple[_array, ...] | Set[_array]
+ArrayLike = Union[List[_array], Tuple[_array, ...], Set[_array]]

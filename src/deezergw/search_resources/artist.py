@@ -1,4 +1,4 @@
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Union
 from deezergw.api import IMAGE_URL, DeezerAPI
 from deezergw.resources.artist import Artist
 
@@ -24,7 +24,7 @@ class SearchArtist:
     def get_full_artist(self):
         return self._get_full_artist(self.id)
 
-    def cover_url(self, size: str | int) -> str:
+    def cover_url(self, size: Union[str, int]) -> str:
         return IMAGE_URL.format("artist", self._artist_cover_pic, size, size)
 
     def __repr__(self) -> str:

@@ -1,6 +1,6 @@
 from datetime import datetime
 from requests import Session
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple, Union
 from deezergw.exceptions import NoRightOnMedia
 from deezergw.globals import Qualities, QualityType
 from deezergw.types import ArrayLike, LoginDumpData, MediaData
@@ -171,13 +171,13 @@ class DeezerAPI:
         data = self._get_api(METHOD_GET_USER_DATA)
         return data
 
-    def get_track_data(self, id: int | str):
+    def get_track_data(self, id: Union[str, int]):
         json_data = {"sng_id": str(id)}
         data = self._get_api(METHOD_GET_TRACK_DATA, json_data)
 
         return data
 
-    def get_album_data(self, id: int | str):
+    def get_album_data(self, id: Union[str, int]):
         if not self.lang:
             raise Exception("Lang was not found during initialization")
 
@@ -186,7 +186,7 @@ class DeezerAPI:
 
         return data
 
-    def get_artist_data(self, id: int | str):
+    def get_artist_data(self, id: Union[str, int]):
         if not self.lang:
             raise Exception("Lang was not found during initialization")
 
@@ -195,7 +195,7 @@ class DeezerAPI:
 
         return data
 
-    def get_playlist_data(self, id: int | str, start: int = 0):
+    def get_playlist_data(self, id: Union[str, int], start: int = 0):
         if not self.lang:
             raise Exception("Lang was not found during initialization")
 
@@ -246,13 +246,13 @@ class DeezerAPI:
 
         return infos["media"][0]
 
-    def is_artist_favorited(self, id: int | str) -> bool:
+    def is_artist_favorited(self, id: Union[str, int]) -> bool:
         variables = {"artistId": str(id)}
 
         response = self._request_graphql(GRAPHQL_IS_ARTIST_FAVORITE, variables)
         return response["artist"]["isFavorite"]
 
-    def is_album_favorited(self, id: int | str) -> bool:
+    def is_album_favorited(self, id: Union[str, int]) -> bool:
         variables = {"albumId": str(id)}
 
         response = self._request_graphql(GRAPHQL_IS_ALBUM_FAVORITE, variables)

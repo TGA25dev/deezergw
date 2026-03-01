@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 from deezergw.api import IMAGE_URL, DeezerAPI
 from deezergw.exceptions import UnknownException
 from deezergw.resources.album import Album
@@ -92,7 +92,7 @@ class Artist:
         self.is_favorite = forced_value
         return self.is_favorite
 
-    def cover_url(self, size: str | int) -> str:
+    def cover_url(self, size: Union[str, int]) -> str:
         return IMAGE_URL.format("artist", self._artist_cover_pic, size, size)
 
     def __repr__(self) -> str:

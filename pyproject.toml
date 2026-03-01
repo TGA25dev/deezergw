@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deezergw"
+version = "0.0.1"
+authors = [{ name = "TabbedDev", email = "trashmail1@gnuhobbyhub.de" }]
+description = "A wrapper for the private Deezer APIs"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Topic :: Multimedia :: Sound/Audio",
+]
+dependencies = ["pycryptodome>=3.8.1", "requests>=2.32.4"]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/tabbeddev/deezergw/"
+Issues = "https://github.com/tabbeddev/deezergw/issues"

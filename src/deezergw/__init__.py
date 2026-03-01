@@ -1,6 +1,6 @@
 import json as _json
 from os import PathLike
-from typing import Generator, List, Optional
+from typing import Any, Generator, List, Optional, Union
 from deezergw.api import DeezerAPI
 from deezergw import decrypt_utils as _decrypt_utils
 from deezergw.resources.album import Album
@@ -71,21 +71,21 @@ class Client:
 
     # Single functions
 
-    def get_track(self, id: str | int):
+    def get_track(self, id: Union[str, int]):
         metadata = self._api.get_track_data(id)
         return Track(metadata, self._api, self.favorited_ids)
 
-    def get_album(self, id: str | int):
+    def get_album(self, id: Union[str, int]):
         is_favorite = self._api.is_album_favorited(id)
         metadata = self._api.get_album_data(id)
         return Album(metadata, self._api, self.favorited_ids, is_favorite)
 
-    def get_artist(self, id: str | int):
+    def get_artist(self, id: Union[str, int]):
         is_favorite = self._api.is_artist_favorited(id)
         metadata = self._api.get_artist_data(id)
         return Artist(metadata, self._api, self.favorited_ids, is_favorite)
 
-    def get_playlist(self, id: str | int, start_offset: int = 0):
+    def get_playlist(self, id: Union[str, int], start_offset: int = 0):
         metadata = self._api.get_playlist_data(id, start_offset)
         return Playlist(metadata, self._api, self.favorited_ids)
 
@@ -168,7 +168,7 @@ class Client:
         return playlists
 
 
-def decrypt_audio(crypted_audio: bytes, track_id: str | int):
+def decrypt_audio(crypted_audio: bytes, track_id: Union[str, int]):
     decrypt_key = _decrypt_utils.calc_bf_key(str(track_id))
 
     for seg, data in enumerate(_decrypt_utils.iter_bytes(crypted_audio, 2048)):
@@ -178,6 +178,6 @@ def decrypt_audio(crypted_audio: bytes, track_id: str | int):
         yield data
 
 
-def save_decrypted(decrypted_audio: Generator[bytes], path: PathLike | str):
+def save_decrypted(decrypted_audio: Generator[bytes, Any, None], path: Union[PathLike, str]):
     with open(path, "wb") as f:
         f.writelines(decrypted_audio)

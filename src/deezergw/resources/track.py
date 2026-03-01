@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Tuple, Union
 from datetime import datetime
 from deezergw.exceptions import ExpiredException
 from deezergw.globals import Qualities, QualityType, StockQuality
@@ -68,7 +68,7 @@ class Track:
         self.is_favorite = forced_value
         return self.is_favorite
 
-    def cover_url(self, size: str | int) -> str:
+    def cover_url(self, size: Union[str, int]) -> str:
         return IMAGE_URL.format("cover", self._album_cover_pic, size, size)
 
     def __repr__(self) -> str:
@@ -76,7 +76,7 @@ class Track:
 
     def download_encrypted(
         self, quality: QualityType = StockQuality
-    ) -> tuple[bytes, DownloadInfo]:
+    ) -> Tuple[bytes, DownloadInfo]:
         now = datetime.now()
         if now > self._track_token_expiary_date:
             raise ExpiredException(
