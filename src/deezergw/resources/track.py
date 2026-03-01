@@ -7,7 +7,9 @@ from deezergw.types import DownloadInfo
 
 
 def _get_filesizes(track_metadata: Any):
-    all_size_keys = list(filter(lambda x: x.startswith("FILESIZE_"), track_metadata))
+    all_size_keys = list(
+        filter(lambda x: x.startswith("FILESIZE_"), track_metadata)
+    )
 
     sizes: Dict[str, int] = {}
 
@@ -22,7 +24,10 @@ def _get_filesizes(track_metadata: Any):
 
 class Track:
     def __init__(
-        self, track_metadata: Any, api: DeezerAPI, favorite_tracks: Dict[str, datetime]
+        self,
+        track_metadata: Any,
+        api: DeezerAPI,
+        favorite_tracks: Dict[str, datetime],
     ) -> None:
         self._api = api  # Pass through for downloads
 
@@ -61,7 +66,7 @@ class Track:
         if forced_value == self.is_favorite:
             return forced_value
 
-        if forced_value == True:
+        if forced_value is True:
             self._api.add_favorite_tracks((self.id,))
         else:
             self._api.remove_favorite_tracks((self.id,))

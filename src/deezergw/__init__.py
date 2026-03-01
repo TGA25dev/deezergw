@@ -17,7 +17,10 @@ from deezergw.types import ArrayLike, LoginDumpData
 
 class Client:
     def __init__(
-        self, key: str, arl: Optional[str] = None, logindump: Optional[bytes] = None
+        self,
+        key: str,
+        arl: Optional[str] = None,
+        logindump: Optional[bytes] = None,
     ) -> None:
         """Creates a new Client. Log in by either specifying an arl or an existing logindump"""
         self._key = key
@@ -96,7 +99,9 @@ class Client:
         return_data = SearchResults(query, [], [], [], [])
 
         for album_metadata in results["albums"]["edges"]:
-            album = SearchAlbum(album_metadata["node"], self._api, self.get_album)
+            album = SearchAlbum(
+                album_metadata["node"], self._api, self.get_album
+            )
             return_data.albums.append(album)
 
         for track_metadata in results["tracks"]["edges"]:
@@ -109,7 +114,9 @@ class Client:
             return_data.tracks.append(track)
 
         for artist_metadata in results["artists"]["edges"]:
-            artist = SearchArtist(artist_metadata["node"], self._api, self.get_artist)
+            artist = SearchArtist(
+                artist_metadata["node"], self._api, self.get_artist
+            )
             return_data.artists.append(artist)
 
         for playlist_metadata in results["playlists"]["edges"]:
@@ -148,7 +155,9 @@ class Client:
     def get_favorite_artists(self):
         if not self._api.user_id:
             raise Exception("UserID was not obtained")
-        metadatas = self._api.get_profile_page_tab("artists", self._api.user_id)
+        metadatas = self._api.get_profile_page_tab(
+            "artists", self._api.user_id
+        )
         artists: List[Artist] = []
         for metadata in metadatas["TAB"]["artists"]["data"]:
             artists.append(
@@ -159,11 +168,15 @@ class Client:
     def get_favorite_playlists(self):
         if not self._api.user_id:
             raise Exception("UserID was not obtained")
-        metadatas = self._api.get_profile_page_tab("playlists", self._api.user_id)
+        metadatas = self._api.get_profile_page_tab(
+            "playlists", self._api.user_id
+        )
         playlists: List[Playlist] = []
         for metadata in metadatas["TAB"]["playlists"]["data"]:
             playlists.append(
-                Playlist({"DATA": metadata}, self._api, self.favorited_ids, True)
+                Playlist(
+                    {"DATA": metadata}, self._api, self.favorited_ids, True
+                )
             )
         return playlists
 
@@ -178,6 +191,8 @@ def decrypt_audio(crypted_audio: bytes, track_id: Union[str, int]):
         yield data
 
 
-def save_decrypted(decrypted_audio: Generator[bytes, Any, None], path: Union[PathLike, str]):
+def save_decrypted(
+    decrypted_audio: Generator[bytes, Any, None], path: Union[PathLike, str]
+):
     with open(path, "wb") as f:
         f.writelines(decrypted_audio)

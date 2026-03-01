@@ -37,7 +37,7 @@ class SearchArtist:
         if forced_value == self.is_favorite:
             return forced_value
 
-        if forced_value == True:
+        if forced_value is True:
             self._api.add_favorite_artist(self.id)
         else:
             self._api.remove_favorite_artist(self.id)

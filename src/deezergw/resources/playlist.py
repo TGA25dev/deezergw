@@ -35,11 +35,15 @@ class Playlist:
         )
 
         self.last_edited: Optional[datetime] = (
-            datetime.fromisoformat(data["DATA_MOD"]) if "DATA_MOD" in data else None
+            datetime.fromisoformat(data["DATA_MOD"])
+            if "DATA_MOD" in data
+            else None
         )
 
         self._author_pic: Optional[str] = (
-            data["PARENT_USER_PICTURE"] if "PARENT_USER_PICTURE" in data else None
+            data["PARENT_USER_PICTURE"]
+            if "PARENT_USER_PICTURE" in data
+            else None
         )
         self._playlist_pic: str = data["PLAYLIST_PICTURE"]
 
@@ -63,7 +67,7 @@ class Playlist:
         if forced_value == self.is_favorite:
             return forced_value
 
-        if forced_value == True:
+        if forced_value is True:
             self._api.add_favorite_playlist(self.id)
         else:
             self._api.remove_favorite_playlist(self.id)

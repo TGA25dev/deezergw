@@ -23,10 +23,12 @@ class SearchTrack:
         self.album_id: str = track_metadata["album"]["id"]
         self.album_name: str = track_metadata["album"]["displayTitle"]
 
-        self.artist_name: str = track_metadata["contributors"]["edges"][0]["node"][
-            "name"
-        ]
-        self.artist_id: str = track_metadata["contributors"]["edges"][0]["node"]["id"]
+        self.artist_name: str = track_metadata["contributors"]["edges"][0][
+            "node"
+        ]["name"]
+        self.artist_id: str = track_metadata["contributors"]["edges"][0][
+            "node"
+        ]["id"]
 
         self._album_cover_pic: str = track_metadata["album"]["cover"]["id"]
         self._get_full_track = get_full_track
@@ -48,7 +50,7 @@ class SearchTrack:
         if forced_value == self.is_favorite:
             return forced_value
 
-        if forced_value == True:
+        if forced_value is True:
             self._api.add_favorite_tracks((self.id,))
         else:
             self._api.remove_favorite_tracks((self.id,))

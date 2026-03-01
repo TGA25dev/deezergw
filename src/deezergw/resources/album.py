@@ -20,22 +20,28 @@ class Album:
         self.name: str = data["ALB_TITLE"]
 
         self.artist_name: str = data["ART_NAME"]
-        self.artist_id: str = (data if "ART_ID" in data else data["ARTISTS"][0])[
-            "ART_ID"
-        ]
+        self.artist_id: str = (
+            data if "ART_ID" in data else data["ARTISTS"][0]
+        )["ART_ID"]
 
         self.duration: Optional[int] = (
             int(data["DURATION"]) if "DURATION" in data else None
         )
 
-        self.fans: Optional[int] = int(data["NB_FAN"]) if "NB_FAN" in data else None
+        self.fans: Optional[int] = (
+            int(data["NB_FAN"]) if "NB_FAN" in data else None
+        )
         self.is_favorite = is_favorite
 
         self.release_date: Optional[datetime] = None
         if "DIGITAL_RELEASE_DATE" in data:
-            self.release_date = datetime.fromisoformat(data["DIGITAL_RELEASE_DATE"])
+            self.release_date = datetime.fromisoformat(
+                data["DIGITAL_RELEASE_DATE"]
+            )
         elif "PHYSICAL_RELEASE_DATE" in data:
-            self.release_date = datetime.fromisoformat(data["PHYSICAL_RELEASE_DATE"])
+            self.release_date = datetime.fromisoformat(
+                data["PHYSICAL_RELEASE_DATE"]
+            )
 
         self._album_cover_pic: str = data["ALB_PICTURE"]
 
@@ -59,7 +65,7 @@ class Album:
         if forced_value == self.is_favorite:
             return forced_value
 
-        if forced_value == True:
+        if forced_value is True:
             self._api.add_favorite_album(self.id)
         else:
             self._api.remove_favorite_album(self.id)

@@ -31,7 +31,9 @@ class SearchPlaylist:
         return IMAGE_URL.format("playlist", self._playlist_pic, size, size)
 
     def __repr__(self) -> str:
-        return f'<Deezer - SearchPlaylist: "{self.name}" by "{self.author_name}">'
+        return (
+            f'<Deezer - SearchPlaylist: "{self.name}" by "{self.author_name}">'
+        )
 
     def favorite(self, forced_value: Optional[bool] = None):
         if forced_value is None:
@@ -40,7 +42,7 @@ class SearchPlaylist:
         if forced_value == self.is_favorite:
             return forced_value
 
-        if forced_value == True:
+        if forced_value is True:
             self._api.add_favorite_playlist(self.id)
         else:
             self._api.remove_favorite_playlist(self.id)

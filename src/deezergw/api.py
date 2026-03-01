@@ -117,7 +117,9 @@ class DeezerAPI:
         self._jwt = jwt_json["jwt"]
         self.jwt_session.headers["authorization"] = "Bearer " + self._jwt
 
-    def _get_api(self, method: str, json_data: Any = None, retries: int = 3) -> Any:
+    def _get_api(
+        self, method: str, json_data: Any = None, retries: int = 3
+    ) -> Any:
         params = {
             "api_version": "1.0",
             "api_token": self._api_token,
@@ -125,11 +127,14 @@ class DeezerAPI:
             "method": method,
         }
 
-        response = self.session.post(PRIVATE_API_URL, params=params, json=json_data)
+        response = self.session.post(
+            PRIVATE_API_URL, params=params, json=json_data
+        )
 
         if response.status_code != 200:
             raise Exception(
-                "GetApi didn't return status 200, but " + str(response.status_code)
+                "GetApi didn't return status 200, but "
+                + str(response.status_code)
             )
 
         results = response.json()["results"]
@@ -144,13 +149,17 @@ class DeezerAPI:
 
         return results
 
-    def _request_graphql(self, query_pair: Tuple[str, str], variables: Any) -> Any:
+    def _request_graphql(
+        self, query_pair: Tuple[str, str], variables: Any
+    ) -> Any:
         json = {
             "operationName": query_pair[0],
             "query": query_pair[1],
             "variables": variables,
         }
-        response = self.jwt_session.post("https://pipe.deezer.com/api", json=json)
+        response = self.jwt_session.post(
+            "https://pipe.deezer.com/api", json=json
+        )
 
         if response.status_code != 200:
             raise Exception(
@@ -181,7 +190,12 @@ class DeezerAPI:
         if not self.lang:
             raise Exception("Lang was not found during initialization")
 
-        json_data = {"alb_id": str(id), "header": True, "tab": 0, "lang": self.lang}
+        json_data = {
+            "alb_id": str(id),
+            "header": True,
+            "tab": 0,
+            "lang": self.lang,
+        }
         data = self._get_api(METHOD_GET_ALBUM_DATA, json_data)
 
         return data
@@ -217,7 +231,9 @@ class DeezerAPI:
 
         return data
 
-    def get_media_data(self, track_token: str, quality: QualityType) -> MediaData:
+    def get_media_data(
+        self, track_token: str, quality: QualityType
+    ) -> MediaData:
         if not self._license_token:
             raise Exception("No License Token found")
 

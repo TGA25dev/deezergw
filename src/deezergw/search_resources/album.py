@@ -16,10 +16,12 @@ class SearchAlbum:
         self.id: str = album_metadata["id"]
         self.name: str = album_metadata["displayTitle"]
 
-        self.artist_name: str = album_metadata["contributors"]["edges"][0]["node"][
-            "name"
-        ]
-        self.artist_id: str = album_metadata["contributors"]["edges"][0]["node"]["id"]
+        self.artist_name: str = album_metadata["contributors"]["edges"][0][
+            "node"
+        ]["name"]
+        self.artist_id: str = album_metadata["contributors"]["edges"][0][
+            "node"
+        ]["id"]
 
         self.is_favorite: bool = album_metadata["isFavorite"]
         self.release_date: datetime = datetime.fromisoformat(
@@ -45,7 +47,7 @@ class SearchAlbum:
         if forced_value == self.is_favorite:
             return forced_value
 
-        if forced_value == True:
+        if forced_value is True:
             self._api.add_favorite_album(self.id)
         else:
             self._api.remove_favorite_album(self.id)
