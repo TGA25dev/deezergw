@@ -1,7 +1,7 @@
 from datetime import datetime
 from requests import Session
 from typing import Any, Dict, Optional, Tuple, Union
-from deezergw.exceptions import NoRightOnMedia
+from deezergw.exceptions import NoRightOnMedia, NotFoundException, UnauthorizedException
 from deezergw.globals import Qualities, QualityType
 from deezergw.types import ArrayLike, LoginDumpData, MediaData
 
@@ -137,15 +137,36 @@ class DeezerAPI:
                 + str(response.status_code)
             )
 
-        results = response.json()["results"]
+        json_response = response.json()
+        results = json_response["results"]
 
-        if not results:
-            if retries <= 0:
-                raise Exception("Results are empty")
-            print(f"Retrying ({retries} tries left) ...")
-            retries -= 1
-            self._refresh_token()
-            return self._get_api(method, json_data, retries=retries)
+        if "error" in json_response and json_response["error"]:
+            error_data = json_response["error"]
+            if "DATA_ERROR" in error_data:
+                raise NotFoundException(error_data["DATA_ERROR"])
+            elif "VALID_TOKEN_REQUIRED" in error_data:
+                print("Server rejected token (this can happen on login with logindump)")
+
+                if retries <= 0:
+                    raise UnauthorizedException("Server rejected token and out of retries. Something is wrong inside DeezerGW")
+                
+                print(f"Reauthenticating ({retries} tries left) ...")
+                retries -= 1
+                self._refresh_token()
+                return self._get_api(method, json_data, retries)
+            else:
+                # Catch any unknown error
+                print("[!] UNKOWN ERROR was receivedby DeezerGW. PLEASE REPORT IT!")
+                print("[ ] JSON-Data:")
+                print(response.json())
+
+                if retries <= 0:
+                    raise Exception("Results are empty")
+
+                print(f"Retrying ({retries} tries left) ...")
+                retries -= 1
+                self._refresh_token()
+                return self._get_api(method, json_data, retries=retries)
 
         return results
 

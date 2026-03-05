@@ -11,3 +11,13 @@ class NoRightOnMedia(Exception):
 class UnknownException(Exception):
     def __init__(self, msg: str) -> None:
         super().__init__(msg)
+
+
+class NotFoundException(Exception):
+    def __init__(self, msg: str) -> None:
+        super().__init__(msg)
+
+
+class UnauthorizedException(Exception):
+    def __init__(self, msg: str) -> None:
+        super().__init__(msg)
