@@ -22,6 +22,12 @@ class SearchArtist:
         self._get_full_artist = get_full_artist
 
     def get_full_artist(self):
+        """
+        Get all missing data for this artist
+
+        :return: A full Artist instance
+        :rtype: Artist
+        """
         return self._get_full_artist(self.id)
 
     def cover_url(self, size: Union[str, int]) -> str:

@@ -1,9 +1,9 @@
 from datetime import datetime
 from requests import Session
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Optional, Tuple, Union
 from deezergw.exceptions import NoRightOnMedia, NotFoundException, UnauthorizedException
 from deezergw.globals import Qualities, QualityType
-from deezergw.types import ArrayLike, LoginDumpData, MediaData
+from deezergw.types import LoginDumpData, MediaData
 
 METHOD_GET_USER_DATA = "deezer.getUserData"
 METHOD_GET_USER_PROFILE = "deezer.pageProfile"
@@ -247,7 +247,7 @@ class DeezerAPI:
 
         return data
 
-    def get_track_batch_data(self, ids: ArrayLike[str]):
+    def get_track_batch_data(self, ids: Iterable[str]):
         json_data = {"sng_ids": tuple(ids)}
         data = self._get_api(METHOD_GET_BATCH_TRACK_DATA, json_data)
 
@@ -309,17 +309,17 @@ class DeezerAPI:
 
         return favorited_tracks
 
-    def add_favorite_tracks(self, ids: ArrayLike[str]):
+    def add_favorite_tracks(self, ids: Iterable[str]):
         now = datetime.now()
 
-        json_data = {"IDS": ids}
+        json_data = {"IDS": tuple(ids)}
         self._get_api(METHOD_ADD_FAVORITE_TRACKS, json_data)
 
         for id in ids:
             self.favorited_ids[id] = now
 
-    def remove_favorite_tracks(self, ids: ArrayLike[str]):
-        json_data = {"IDS": ids}
+    def remove_favorite_tracks(self, ids: Iterable[str]):
+        json_data = {"IDS": tuple(ids)}
         self._get_api(METHOD_REMOVE_FAVORITE_TRACKS, json_data)
 
         for id in ids:

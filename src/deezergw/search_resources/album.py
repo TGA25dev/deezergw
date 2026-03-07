@@ -32,6 +32,12 @@ class SearchAlbum:
         self._get_full_album = get_full_album
 
     def get_full_album(self):
+        """
+        Get all missing data for this album
+
+        :return: A full Album instance
+        :rtype: Album
+        """
         return self._get_full_album(self.id)
 
     def cover_url(self, size: Union[str, int]) -> str:
