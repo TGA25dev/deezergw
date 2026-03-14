@@ -245,16 +245,18 @@ class DeezerAPI:
     
     def create_playlist(self, title:str, description:Optional[str] = None, is_private: bool=False, is_collaborative: bool=False) -> str:
         """
-        Create a new playlist. Returns the playlist ID.
+        Create a new playlist. Returns the playlist ID. Playlist cannot be both private and collaborative.
         
-        Args:
-            title: The title of the playlist
-            description (optional): Description for the playlist
-            is_private: Whether the playlist should be private. Default is False (public)
-            is_collaborative: Whether the playlist should be collaborative. Default is False
-        
-        Returns:
-            The ID of the created playlist
+        :param title: The title of the playlist
+        :type title: str
+        :param description: Description for the playlist
+        :type description: Optional[str]
+        :param is_private: Whether the playlist should be private. Default is False (public)
+        :type is_private: bool
+        :param is_collaborative: Whether the playlist should be collaborative. Default is False
+        :type is_collaborative: bool
+        :return: The ID of the created playlist
+        :rtype: str
         """
 
         variables = {
@@ -277,12 +279,9 @@ class DeezerAPI:
     def delete_playlist(self, id: str):
         """
         Delete a playlist by ID
-        
-        Args:
-            id: The ID of the playlist to delete
 
-        Returns:
-            None    
+        :param id: The ID of the playlist to delete
+        :type id: str
         """
         
         json_data = {"playlist_id": id}
@@ -290,17 +289,20 @@ class DeezerAPI:
 
     def edit_playlist(self, playlist_id:str, title: Optional[str] = None, description: Optional[str] = None, is_private: Optional[bool] = None, is_collaborative: Optional[bool] = None) -> str:
         """
-        Edit a playlist. Returns the playlist ID.
+        Edit a playlist. Returns the playlist ID. Playlist cannot be both private and collaborative.
 
-        Args:
-            playlist_id: The ID of the playlist to edit
-            title (optional): The new title of the playlist
-            description (optional): The new description of the playlist
-            is_private (optional): Whether the playlist should be private
-            is_collaborative (optional): Whether the playlist should be collaborative
-
-        Returns:
-            The ID of the edited playlist
+        :param playlist_id: The ID of the playlist to edit
+        :type playlist_id: str
+        :param title: The new title of the playlist
+        :type title: Optional[str]
+        :param description: The new description of the playlist
+        :type description: Optional[str]
+        :param is_private: Whether the playlist should be private
+        :type is_private: Optional[bool]
+        :param is_collaborative: Whether the playlist should be collaborative
+        :type is_collaborative: Optional[bool]
+        :return: The ID of the edited playlist
+        :rtype: str
         """
 
         variables = {
@@ -334,13 +336,12 @@ class DeezerAPI:
         """
         Add songs to a playlist.
 
-        Args:
-            playlist_id: The ID of the playlist to add songs to
-            song_ids: A list of song IDs to add to the playlist
-            offset: The position to insert the songs at. Default is -1 (add to end of playlist)
-        
-        Returns:
-            None
+        :param playlist_id: The ID of the playlist to add songs to
+        :type playlist_id: str
+        :param song_ids: A list of song IDs to add to the playlist
+        :type song_ids: ArrayLike[str]
+        :param offset: The position to insert the songs at. Default is -1 (add to end of playlist)
+        :type offset: int
         """
 
         # Convert song IDs to [id, position] format
@@ -358,12 +359,10 @@ class DeezerAPI:
         """
         Remove songs from a playlist.
 
-        Args:
-            playlist_id: The ID of the playlist to remove songs from
-            song_ids: A list of song IDs to remove from the playlist
-
-        Returns:
-            None
+        :param playlist_id: The ID of the playlist to remove songs from
+        :type playlist_id: str
+        :param song_ids: A list of song IDs to remove from the playlist
+        :type song_ids: ArrayLike[str]
         """
     
         songs = [[int(song_id), i] for i, song_id in enumerate(song_ids)] #convert song IDs to [id, position] format (as integers)
