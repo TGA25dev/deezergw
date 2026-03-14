@@ -1,13 +1,14 @@
 class ExpiredException(Exception):
-    def __init__(self, msg: str) -> None:
-        super().__init__(msg)
-
+    pass
 
 class NoRightOnMedia(Exception):
-    def __init__(self, msg: str) -> None:
-        super().__init__(msg)
-
+    pass
 
 class UnknownException(Exception):
-    def __init__(self, msg: str) -> None:
-        super().__init__(msg)
+    pass
+
+class NotFoundException(Exception):
+    pass
+
+class UnauthorizedException(Exception):
+    pass

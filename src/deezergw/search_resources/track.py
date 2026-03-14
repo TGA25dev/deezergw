@@ -34,6 +34,13 @@ class SearchTrack:
         self._get_full_track = get_full_track
 
     def get_full_track(self):
+        """
+        Get all missing data for this track.
+        Use this function in order to download this track.
+
+        :return: A full Track instance
+        :rtype: Track
+        """
         return self._get_full_track(self.id)
 
     def cover_url(self, size: Union[str, int]) -> str:

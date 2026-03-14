@@ -28,6 +28,12 @@ class SearchPlaylist:
         self._get_full_playlist = get_full_playlist
 
     def get_full_playlist(self):
+        """
+        Get all missing data for this playlist
+
+        :return: A full Playlist instance
+        :rtype: Playlist
+        """
         return self._get_full_playlist(self.id)
 
     def cover_url(self, size: Union[str, int]) -> str:
