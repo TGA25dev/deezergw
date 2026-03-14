@@ -24,6 +24,8 @@ METHOD_GET_PLAYLIST_DATA = "deezer.pagePlaylist"
 METHOD_ADD_FAVORITE_PLAYLIST = "playlist.addFavorite"
 METHOD_REMOVE_FAVORITE_PLAYLIST = "playlist.deleteFavorite"
 METHOD_DELETE_PLAYLIST = "playlist.delete"
+METHOD_ADD_PLAYLIST_TRACK = "playlist.addSongs"
+METHOD_REMOVE_PLAYLIST_TRACK = "playlist.deleteSongs"
 
 PRIVATE_API_URL = "https://www.deezer.com/ajax/gw-light.php"
 GET_MEDIA_URL = "https://media.deezer.com/v1/get_url"
@@ -264,6 +266,36 @@ class DeezerAPI:
         data = self._get_api(METHOD_GET_BATCH_TRACK_DATA, json_data)
 
         return data
+    
+    def add_tracks_to_playlist(self, playlist_id: str, song_ids:ArrayLike[str],offset: int = -1) -> None:
+        """
+        Add songs to a playlist.
+        """
+        
+        # Convert song IDs to [id, position] format
+        songs = [[str(song_id), i] for i, song_id in enumerate(song_ids)]
+        
+        json_data = {
+            "playlist_id": playlist_id,
+            "songs": songs,
+            "offset": offset,
+        }
+        
+        self._get_api(METHOD_ADD_PLAYLIST_TRACK, json_data)
+
+    def remove_tracks_from_playlist(self, playlist_id: str,song_ids: ArrayLike[str]) -> None:
+        """
+        Remove songs from a playlist.
+        """
+    
+        songs = [[int(song_id), i] for i, song_id in enumerate(song_ids)] #convert song IDs to [id, position] format (as integers)
+        
+        json_data = {
+            "playlist_id": playlist_id,
+            "songs": songs,
+        }
+        
+        self._get_api(METHOD_REMOVE_PLAYLIST_TRACK, json_data)
 
     def get_media_data(
         self, track_token: str, quality: QualityType
