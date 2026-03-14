@@ -262,6 +262,9 @@ class DeezerAPI:
 
         if description:
             variables["input"]["description"] = description
+
+        if is_private and is_collaborative:
+            raise Exception("A playlist cannot be both private and collaborative")
         
         response = self._request_graphql(GRAPHQL_CREATE_PLAYLIST, variables)
         return response["createPlaylist"]["playlist"]["id"]
