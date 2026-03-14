@@ -175,6 +175,10 @@ class DeezerAPI:
             else:
                 raise Exception("GraphQL request failed. Unknown JSON Error")
 
+        #check if theres data before trying to access it
+        if "data" not in response_json:
+            raise Exception(f"GraphQL response missing 'data' field: {response_json}")
+
         return response_json["data"]
 
     def get_user_data(self):
