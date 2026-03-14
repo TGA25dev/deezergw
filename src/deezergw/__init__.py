@@ -47,6 +47,9 @@ class Client:
         self.remove_favorite_playlist = self._api.remove_favorite_playlist
         self.remove_favorite_tracks = self._api.remove_favorite_tracks
 
+        self.create_playlist = self._api.create_playlist
+        self.delete_playlist = self._api.delete_playlist
+
     def generate_logindump(self):
         """
         Generates a encrypted byte string that can be used to log into your account with DeezerGW.
