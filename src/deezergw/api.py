@@ -59,6 +59,11 @@ GRAPHQL_CREATE_PLAYLIST = (
     "mutation CreatePlaylist($input: PlaylistCreateMutationInput!) { createPlaylist(input: $input) { playlist { id title description isPrivate isCollaborative picture { id } } } }",
 )
 
+GRAPHQL_EDIT_PLAYLIST = (
+    "UpdatePlaylist",
+    "mutation UpdatePlaylist($input: PlaylistUpdateMutationInput!) { updatePlaylist(input: $input) { playlist { id title description isPrivate isCollaborative picture { id } } } }",
+)
+
 
 class DeezerAPI:
     def __init__(
@@ -282,6 +287,42 @@ class DeezerAPI:
         
         json_data = {"playlist_id": id}
         self._get_api(METHOD_DELETE_PLAYLIST, json_data)
+
+    def edit_playlist(self, playlist_id:str, title: Optional[str] = None, description: Optional[str] = None, is_private: Optional[bool] = None, is_collaborative: Optional[bool] = None) -> str:
+        """
+        Edit a playlist. Returns the playlist ID.
+
+        Args:
+            playlist_id: The ID of the playlist to edit
+            title (optional): The new title of the playlist
+            description (optional): The new description of the playlist
+            is_private (optional): Whether the playlist should be private
+            is_collaborative (optional): Whether the playlist should be collaborative
+
+        Returns:
+            The ID of the edited playlist
+        """
+
+        variables = {
+            "input": {
+                "playlistId": playlist_id,
+            }
+        }
+
+        if title is not None:
+            variables["input"]["title"] = title
+        if description is not None:
+            variables["input"]["description"] = description
+        if is_private is not None:
+            variables["input"]["isPrivate"] = is_private
+        if is_collaborative is not None:
+            variables["input"]["isCollaborative"] = is_collaborative
+
+        if is_private and is_collaborative: #bcz not possible by Deezer and clearly illogical
+            raise Exception("A playlist cannot be both private and collaborative")
+        
+        response = self._request_graphql(GRAPHQL_EDIT_PLAYLIST, variables)
+        return response["updatePlaylist"]["playlist"]["id"]
 
     def get_track_batch_data(self, ids: ArrayLike[str]):
         json_data = {"sng_ids": tuple(ids)}

@@ -49,6 +49,7 @@ class Client:
 
         self.create_playlist = self._api.create_playlist
         self.delete_playlist = self._api.delete_playlist
+        self.edit_playlist = self._api.edit_playlist
         self.add_tracks_to_playlist = self._api.add_tracks_to_playlist
         self.remove_tracks_from_playlist = self._api.remove_tracks_from_playlist
 
