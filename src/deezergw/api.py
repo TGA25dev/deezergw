@@ -239,7 +239,18 @@ class DeezerAPI:
         return data
     
     def create_playlist(self, title:str, description:Optional[str] = None, is_private: bool=False, is_collaborative: bool=False) -> str:
-        """Create a new playlist. Returns the playlist ID."""
+        """
+        Create a new playlist. Returns the playlist ID.
+        
+        Args:
+            title: The title of the playlist
+            description (optional): Description for the playlist
+            is_private: Whether the playlist should be private. Default is False (public)
+            is_collaborative: Whether the playlist should be collaborative. Default is False
+        
+        Returns:
+            The ID of the created playlist
+        """
 
         variables = {
             "input": {
@@ -256,7 +267,15 @@ class DeezerAPI:
         return response["createPlaylist"]["playlist"]["id"]
 
     def delete_playlist(self, id: str):
-        """Delete a playlist by ID."""
+        """
+        Delete a playlist by ID
+        
+        Args:
+            id: The ID of the playlist to delete
+
+        Returns:
+            None    
+        """
         
         json_data = {"playlist_id": id}
         self._get_api(METHOD_DELETE_PLAYLIST, json_data)
@@ -270,8 +289,16 @@ class DeezerAPI:
     def add_tracks_to_playlist(self, playlist_id: str, song_ids:ArrayLike[str],offset: int = -1) -> None:
         """
         Add songs to a playlist.
-        """
+
+        Args:
+            playlist_id: The ID of the playlist to add songs to
+            song_ids: A list of song IDs to add to the playlist
+            offset: The position to insert the songs at. Default is -1 (add to end of playlist)
         
+        Returns:
+            None
+        """
+
         # Convert song IDs to [id, position] format
         songs = [[str(song_id), i] for i, song_id in enumerate(song_ids)]
         
@@ -286,6 +313,13 @@ class DeezerAPI:
     def remove_tracks_from_playlist(self, playlist_id: str,song_ids: ArrayLike[str]) -> None:
         """
         Remove songs from a playlist.
+
+        Args:
+            playlist_id: The ID of the playlist to remove songs from
+            song_ids: A list of song IDs to remove from the playlist
+
+        Returns:
+            None
         """
     
         songs = [[int(song_id), i] for i, song_id in enumerate(song_ids)] #convert song IDs to [id, position] format (as integers)
